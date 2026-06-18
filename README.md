@@ -4,6 +4,18 @@ A responsive workshop landing page built with **React.js** (Vite) + **Express.js
 
 ---
 
+<img width="1901" height="993" alt="image" src="https://github.com/user-attachments/assets/ff6cd122-6b98-45cc-88c7-a1e20a4df09e" />
+
+Admin panel
+<img width="1895" height="992" alt="image" src="https://github.com/user-attachments/assets/48378548-4e9c-4fe1-904a-a977c38572a5" />
+
+
+
+
+
+
+
+
 ## 🚀 Quick Start
 
 ### Prerequisites
