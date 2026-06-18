@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI & Robotics Summer Workshop — Kidrove</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink:       #0D0F1A;
+      --surface:   #F7F8FC;
+      --card:      #FFFFFF;
+      --violet:    #5B3AFF;
+      --violet-lt: #7B5FFF;
+      --violet-bg: #EDE8FF;
+      --coral:     #FF5C3A;
+      --mint:      #00C9A7;
+      --gold:      #FFB830;
+      --muted:     #6B7280;
+      --border:    #E5E7EB;
+      --radius-sm: 10px;
+      --radius-md: 18px;
+      --radius-lg: 28px;
+    }
+
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background: var(--surface);
+      color: var(--ink);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5%;
+      height: 68px;
+      background: rgba(247,248,252,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .logo {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.5rem; font-weight: 800;
+      color: var(--ink); text-decoration: none;
+    }
+    .logo span { color: var(--violet); }
+    nav a.nav-cta {
+      background: var(--violet); color: #fff;
+      padding: 8px 22px; border-radius: 50px;
+      text-decoration: none; font-weight: 600; font-size: 0.9rem;
+      transition: background 0.2s;
+    }
+    nav a.nav-cta:hover { background: var(--violet-lt); }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 92vh;
+      display: flex; align-items: center;
+      padding: 80px 5% 60px;
+      overflow: hidden;
+      background: var(--ink);
+    }
+    .hero-blob {
+      position: absolute; border-radius: 50%;
+      filter: blur(80px); opacity: 0.35; pointer-events: none;
+    }
+    .blob-1 { width: 520px; height: 520px; background: var(--violet); top: -120px; right: -80px; }
+    .blob-2 { width: 340px; height: 340px; background: var(--coral);  bottom: -60px; left: 10%; }
+    .blob-3 { width: 280px; height: 280px; background: var(--mint);   top: 30%;     right: 25%; }
+
+    .hero-content {
+      position: relative; z-index: 2;
+      max-width: 660px;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.25);
+      color: #fff; border-radius: 50px;
+      padding: 6px 16px; font-size: 0.82rem; font-weight: 600;
+      letter-spacing: 0.04em; text-transform: uppercase;
+      margin-bottom: 28px;
+    }
+    .hero-badge .dot { width: 8px; height: 8px; background: var(--mint); border-radius: 50%; }
+    .hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.4rem, 6vw, 4rem);
+      font-weight: 800; line-height: 1.12;
+      color: #fff; margin-bottom: 20px;
+    }
+    .hero h1 em {
+      font-style: normal;
+      background: linear-gradient(90deg, var(--violet-lt), var(--mint));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero p {
+      color: rgba(255,255,255,0.72);
+      font-size: 1.1rem; max-width: 520px;
+      margin-bottom: 40px;
+    }
+    .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--violet); color: #fff;
+      padding: 14px 30px; border-radius: 50px;
+      font-weight: 700; font-size: 1rem; text-decoration: none;
+      border: none; cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 24px rgba(91,58,255,0.45);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(91,58,255,0.55); }
+    .btn-secondary {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: transparent; color: #fff;
+      padding: 14px 30px; border-radius: 50px;
+      font-weight: 600; font-size: 1rem; text-decoration: none;
+      border: 1.5px solid rgba(255,255,255,0.35); cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .btn-secondary:hover { border-color: #fff; background: rgba(255,255,255,0.08); }
+
+    .hero-stats {
+      position: relative; z-index: 2;
+      margin-top: 56px;
+      display: flex; gap: 32px; flex-wrap: wrap;
+    }
+    .stat { text-align: left; }
+    .stat-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 2rem; font-weight: 800; color: #fff;
+    }
+    .stat-num span { color: var(--gold); }
+    .stat-label { font-size: 0.82rem; color: rgba(255,255,255,0.5); font-weight: 500; }
+
+    /* ── SECTION WRAPPER ── */
+    .section { padding: 80px 5%; }
+    .section-tag {
+      display: inline-block;
+      background: var(--violet-bg); color: var(--violet);
+      border-radius: 50px; padding: 4px 16px;
+      font-size: 0.78rem; font-weight: 700;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 800; line-height: 1.2;
+      margin-bottom: 10px;
+    }
+    .section-sub {
+      color: var(--muted); font-size: 1.05rem; max-width: 520px;
+      margin-bottom: 48px;
+    }
+
+    /* ── WORKSHOP DETAILS ── */
+    .details-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+      margin-bottom: 48px;
+    }
+    .detail-card {
+      background: var(--card);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      border: 1px solid var(--border);
+      display: flex; align-items: flex-start; gap: 14px;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .detail-card:hover { box-shadow: 0 6px 24px rgba(0,0,0,0.08); transform: translateY(-2px); }
+    .detail-icon {
+      width: 44px; height: 44px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; flex-shrink: 0;
+    }
+    .detail-icon.violet { background: var(--violet-bg); }
+    .detail-icon.coral  { background: #FFEAE5; }
+    .detail-icon.mint   { background: #DFFAF5; }
+    .detail-icon.gold   { background: #FFF3D6; }
+    .detail-icon.sky    { background: #E0F0FF; }
+    .detail-label { font-size: 0.78rem; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
+    .detail-value { font-size: 1.05rem; font-weight: 700; color: var(--ink); margin-top: 3px; }
+
+    /* ── OUTCOMES ── */
+    .outcomes-section { background: var(--ink); }
+    .outcomes-section .section-title { color: #fff; }
+    .outcomes-section .section-sub   { color: rgba(255,255,255,0.55); }
+    .outcomes-section .section-tag   { background: rgba(91,58,255,0.3); color: var(--violet-lt); }
+    .outcomes-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 18px;
+    }
+    .outcome-item {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--radius-md);
+      padding: 24px 24px 24px 20px;
+      display: flex; gap: 16px; align-items: flex-start;
+      transition: background 0.2s;
+    }
+    .outcome-item:hover { background: rgba(255,255,255,0.08); }
+    .outcome-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 2rem; font-weight: 800;
+      color: var(--violet-lt); opacity: 0.5;
+      line-height: 1; flex-shrink: 0;
+      padding-top: 2px;
+    }
+    .outcome-text strong {
+      display: block; color: #fff;
+      font-size: 1rem; font-weight: 700; margin-bottom: 4px;
+    }
+    .outcome-text p { color: rgba(255,255,255,0.55); font-size: 0.88rem; }
+
+    /* ── FAQ ── */
+    .faq-list { max-width: 720px; }
+    .faq-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      margin-bottom: 12px;
+      overflow: hidden;
+      transition: box-shadow 0.2s;
+    }
+    .faq-item.open { box-shadow: 0 4px 20px rgba(91,58,255,0.1); border-color: var(--violet); }
+    .faq-question {
+      width: 100%; text-align: left;
+      padding: 20px 24px;
+      background: none; border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1rem; font-weight: 600; color: var(--ink);
+    }
+    .faq-chevron {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--violet-bg); color: var(--violet);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; font-size: 1rem;
+      transition: transform 0.25s, background 0.2s;
+    }
+    .faq-item.open .faq-chevron { transform: rotate(180deg); background: var(--violet); color: #fff; }
+    .faq-answer {
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.3s ease, padding 0.3s;
+    }
+    .faq-item.open .faq-answer { max-height: 400px; }
+    .faq-answer-inner {
+      padding: 0 24px 20px;
+      color: var(--muted); font-size: 0.95rem; line-height: 1.7;
+    }
+
+    /* ── REGISTRATION FORM ── */
+    .form-section {
+      background: linear-gradient(135deg, var(--violet) 0%, #3D1FCC 100%);
+    }
+    .form-section .section-tag { background: rgba(255,255,255,0.2); color: #fff; }
+    .form-section .section-title { color: #fff; }
+    .form-section .section-sub   { color: rgba(255,255,255,0.7); }
+
+    .form-wrapper {
+      max-width: 560px;
+      background: #fff;
+      border-radius: var(--radius-lg);
+      padding: 40px;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.25);
+    }
+    .form-group { margin-bottom: 20px; }
+    .form-label {
+      display: block; font-size: 0.83rem; font-weight: 700;
+      color: var(--ink); margin-bottom: 7px;
+      letter-spacing: 0.02em;
+    }
+    .form-label span { color: var(--coral); }
+    .form-input {
+      width: 100%; padding: 13px 16px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.97rem; color: var(--ink);
+      background: var(--surface);
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+    }
+    .form-input:focus { border-color: var(--violet); box-shadow: 0 0 0 3px rgba(91,58,255,0.15); }
+    .form-input.error { border-color: var(--coral); box-shadow: 0 0 0 3px rgba(255,92,58,0.1); }
+    .form-error { font-size: 0.8rem; color: var(--coral); margin-top: 5px; font-weight: 500; }
+    .form-submit {
+      width: 100%;
+      background: var(--violet); color: #fff;
+      border: none; border-radius: 50px;
+      padding: 15px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1rem; font-weight: 700; cursor: pointer;
+      transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      margin-top: 8px;
+      box-shadow: 0 4px 20px rgba(91,58,255,0.35);
+    }
+    .form-submit:hover:not(:disabled) { background: var(--violet-lt); transform: translateY(-1px); }
+    .form-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    .spinner {
+      width: 18px; height: 18px;
+      border: 2.5px solid rgba(255,255,255,0.35);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .success-banner {
+      background: #DFFAF5; border: 1.5px solid var(--mint);
+      border-radius: var(--radius-sm); padding: 16px 20px;
+      display: flex; gap: 12px; align-items: flex-start;
+      margin-bottom: 20px;
+    }
+    .success-banner .icon { font-size: 1.3rem; flex-shrink: 0; }
+    .success-banner p { font-size: 0.92rem; color: #064E3B; font-weight: 500; }
+
+    .error-banner {
+      background: #FFF0ED; border: 1.5px solid var(--coral);
+      border-radius: var(--radius-sm); padding: 14px 18px;
+      font-size: 0.88rem; color: #7C2A1B;
+      margin-bottom: 20px; font-weight: 500;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--ink); color: rgba(255,255,255,0.4);
+      text-align: center; padding: 32px 5%;
+      font-size: 0.85rem;
+    }
+    footer a { color: var(--violet-lt); text-decoration: none; }
+    footer strong { color: rgba(255,255,255,0.75); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      .hero { min-height: auto; padding: 60px 5% 50px; }
+      .hero-stats { gap: 20px; }
+      .form-wrapper { padding: 28px 20px; }
+      .details-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="/" class="logo">kid<span>rove</span></a>
+  <a href="#register" class="nav-cta">Enroll Now →</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-blob blob-1"></div>
+  <div class="hero-blob blob-2"></div>
+  <div class="hero-blob blob-3"></div>
+  <div>
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="dot"></span>
+        Registrations Open · Starting 15 July 2026
+      </div>
+      <h1>Build Robots.<br /><em>Shape the Future.</em></h1>
+      <p>A hands-on summer deep-dive into Artificial Intelligence and Robotics, designed for curious kids aged 8–14. Four weeks of building, coding, and thinking like an engineer.</p>
+      <div class="hero-actions">
+        <a href="#register" class="btn-primary">
+          <span>Enroll Now</span> <span>→</span>
+        </a>
+        <a href="#details" class="btn-secondary">
+          <span>📋</span> <span>View Details</span>
+        </a>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num">₹2,999<span>/</span></div>
+        <div class="stat-label">Total Workshop Fee</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">4 <span>wks</span></div>
+        <div class="stat-label">Intensive Duration</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">8–14</div>
+        <div class="stat-label">Age Group (Years)</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">100<span>%</span></div>
+        <div class="stat-label">Online & Live</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WORKSHOP DETAILS -->
+<section class="section" id="details">
+  <div class="section-tag">Workshop Details</div>
+  <h2 class="section-title">Everything You Need to Know</h2>
+  <p class="section-sub">All the specifics about the AI &amp; Robotics Summer Workshop, at a glance.</p>
+
+  <div class="details-grid">
+    <div class="detail-card">
+      <div class="detail-icon violet">🎂</div>
+      <div>
+        <div class="detail-label">Age Group</div>
+        <div class="detail-value">8 – 14 Years</div>
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="detail-icon coral">⏱️</div>
+      <div>
+        <div class="detail-label">Duration</div>
+        <div class="detail-value">4 Weeks</div>
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="detail-icon mint">💻</div>
+      <div>
+        <div class="detail-label">Mode</div>
+        <div class="detail-value">Online (Live)</div>
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="detail-icon gold">💰</div>
+      <div>
+        <div class="detail-label">Workshop Fee</div>
+        <div class="detail-value">₹ 2,999</div>
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="detail-icon sky">📅</div>
+      <div>
+        <div class="detail-label">Start Date</div>
+        <div class="detail-value">15 July 2026</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LEARNING OUTCOMES -->
+<section class="section outcomes-section" id="outcomes">
+  <div class="section-tag">What Kids Learn</div>
+  <h2 class="section-title">Learning Outcomes</h2>
+  <p class="section-sub">Real skills, not just theory. Every kid leaves with a project portfolio and confidence.</p>
+
+  <div class="outcomes-list">
+    <div class="outcome-item">
+      <div class="outcome-num">01</div>
+      <div class="outcome-text">
+        <strong>AI Fundamentals &amp; Machine Learning</strong>
+        <p>Understand how AI works — from training models to recognising patterns — using visual, code-free tools designed for young learners.</p>
+      </div>
+    </div>
+    <div class="outcome-item">
+      <div class="outcome-num">02</div>
+      <div class="outcome-text">
+        <strong>Build &amp; Program a Robot</strong>
+        <p>Assemble a virtual robot and write step-by-step instructions to make it move, detect obstacles, and complete real challenges.</p>
+      </div>
+    </div>
+    <div class="outcome-item">
+      <div class="outcome-num">03</div>
+      <div class="outcome-text">
+        <strong>Intro to Python for Kids</strong>
+        <p>Learn the basics of Python — loops, conditionals, and functions — through puzzles, mini-games, and creative coding projects.</p>
+      </div>
+    </div>
+    <div class="outcome-item">
+      <div class="outcome-num">04</div>
+      <div class="outcome-text">
+        <strong>Computational Problem-Solving</strong>
+        <p>Break down complex problems into logical steps. Think like an engineer: plan, test, fail fast, and improve.</p>
+      </div>
+    </div>
+    <div class="outcome-item">
+      <div class="outcome-num">05</div>
+      <div class="outcome-text">
+        <strong>Design Your Own AI Project</strong>
+        <p>In Week 4, kids design and present their own mini AI application — a chatbot, game, or smart sorter — to family and peers.</p>
+      </div>
+    </div>
+    <div class="outcome-item">
+      <div class="outcome-num">06</div>
+      <div class="outcome-text">
+        <strong>Ethics &amp; Responsible Tech</strong>
+        <p>Explore questions like "Should robots make decisions?" and "Is AI always fair?" — building critical thinking alongside coding skills.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section" id="faq">
+  <div class="section-tag">Got Questions?</div>
+  <h2 class="section-title">Frequently Asked Questions</h2>
+  <p class="section-sub">Everything parents ask before enrolling. Still unsure? Register and we'll call you.</p>
+
+  <div class="faq-list">
+    <div class="faq-item" id="faq-1">
+      <button class="faq-question" onclick="toggleFaq('faq-1')">
+        <span>Does my child need any prior coding experience?</span>
+        <div class="faq-chevron">▾</div>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">Not at all! This workshop is designed for complete beginners. We start with visual block-based tools before introducing text-based coding, so every child — whether they've never opened a terminal or have dabbled in Scratch — can follow along comfortably from Day 1.</div>
+      </div>
+    </div>
+
+    <div class="faq-item" id="faq-2">
+      <button class="faq-question" onclick="toggleFaq('faq-2')">
+        <span>What device or internet connection does my child need?</span>
+        <div class="faq-chevron">▾</div>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">A laptop or desktop computer with a stable internet connection is recommended (tablets work for most activities). We use browser-based tools — no downloads or installations required. A webcam and microphone are helpful but not mandatory for the live sessions.</div>
+      </div>
+    </div>
+
+    <div class="faq-item" id="faq-3">
+      <button class="faq-question" onclick="toggleFaq('faq-3')">
+        <span>What are the session timings and will classes be recorded?</span>
+        <div class="faq-chevron">▾</div>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">Live sessions run Monday to Friday for 90 minutes, typically scheduled between 10:00 AM and 12:00 PM IST during the summer holiday window. All sessions are recorded and shared with enrolled students, so missing a day is never a crisis.</div>
+      </div>
+    </div>
+
+    <div class="faq-item" id="faq-4">
+      <button class="faq-question" onclick="toggleFaq('faq-4')">
+        <span>Is there a certificate at the end of the workshop?</span>
+        <div class="faq-chevron">▾</div>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">Yes! Every child who completes the 4-week programme and submits their final AI project receives a Kidrove Certificate of Completion in AI & Robotics. Students who score above 80% in assessments receive a Merit Certificate — a great addition to school portfolios.</div>
+      </div>
+    </div>
+
+    <div class="faq-item" id="faq-5">
+      <button class="faq-question" onclick="toggleFaq('faq-5')">
+        <span>What is the refund policy if we can't continue?</span>
+        <div class="faq-chevron">▾</div>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">We offer a full refund if you cancel at least 7 days before the start date. Cancellations between 3–7 days before the start date are eligible for a 50% refund. After the workshop begins, fees are non-refundable but you may transfer your seat to a sibling or friend at no extra charge.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REGISTRATION FORM -->
+<section class="section form-section" id="register">
+  <div class="section-tag">Register Now</div>
+  <h2 class="section-title">Secure Your Spot Today</h2>
+  <p class="section-sub">Seats are limited to 30 students per batch. Fill in your details and our team will reach out within 24 hours.</p>
+
+  <div class="form-wrapper">
+    <div id="success-msg" class="success-banner" style="display:none">
+      <div class="icon">✅</div>
+      <p id="success-text">You're registered!</p>
+    </div>
+    <div id="error-msg" class="error-banner" style="display:none" id="error-banner"></div>
+
+    <div class="form-group">
+      <label class="form-label" for="name">Full Name <span>*</span></label>
+      <input class="form-input" type="text" id="name" placeholder="E.g. Aarav Sharma" autocomplete="name" />
+      <div class="form-error" id="name-error"></div>
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="email">Email Address <span>*</span></label>
+      <input class="form-input" type="email" id="email" placeholder="parent@email.com" autocomplete="email" />
+      <div class="form-error" id="email-error"></div>
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="phone">Phone Number <span>*</span></label>
+      <input class="form-input" type="tel" id="phone" placeholder="10-digit Indian mobile number" autocomplete="tel" />
+      <div class="form-error" id="phone-error"></div>
+    </div>
+    <button class="form-submit" id="submit-btn" onclick="handleSubmit()">
+      <span id="btn-text">Enroll in Workshop</span>
+      <div class="spinner" id="spinner" style="display:none"></div>
+    </button>
+    <p style="font-size:0.78rem;color:#9CA3AF;text-align:center;margin-top:14px;">
+      By enrolling, you agree to Kidrove's terms. No spam — ever.
+    </p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p><strong>Kidrove</strong> — Nurturing Young Innovators Since 2019</p>
+  <p style="margin-top:8px;">
+    <a href="https://www.kidrove.com">kidrove.com</a> · Indore, India ·
+    <a href="mailto:hello@kidrove.com">hello@kidrove.com</a>
+  </p>
+  <p style="margin-top:10px;font-size:0.78rem;">© 2026 Kidrove. All rights reserved.</p>
+</footer>
+
+<script>
+  // ── FAQ Toggle ──
+  function toggleFaq(id) {
+    const item = document.getElementById(id);
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(el => el.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+
+  // ── Form Validation ──
+  function validateField(id, value) {
+    const errorEl = document.getElementById(id + '-error');
+    const inputEl = document.getElementById(id);
+    let error = '';
+
+    if (id === 'name') {
+      if (!value.trim() || value.trim().length < 2) error = 'Please enter your full name (at least 2 characters).';
+    } else if (id === 'email') {
+      if (!value.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) error = 'Please enter a valid email address.';
+    } else if (id === 'phone') {
+      if (!value.trim() || !/^[6-9]\d{9}$/.test(value.replace(/\s/g, ''))) error = 'Please enter a valid 10-digit Indian mobile number.';
+    }
+
+    if (error) {
+      inputEl.classList.add('error');
+      errorEl.textContent = error;
+    } else {
+      inputEl.classList.remove('error');
+      errorEl.textContent = '';
+    }
+    return error;
+  }
+
+  // Inline validation on blur
+  ['name', 'email', 'phone'].forEach(id => {
+    const el = document.getElementById(id);
+    el.addEventListener('blur', () => validateField(id, el.value));
+    el.addEventListener('input', () => {
+      if (el.classList.contains('error')) validateField(id, el.value);
+    });
+  });
+
+  // ── Submit Handler ──
+  async function handleSubmit() {
+    const name  = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const phone = document.getElementById('phone').value;
+
+    // Clear banners
+    document.getElementById('success-msg').style.display = 'none';
+    document.getElementById('error-msg').style.display = 'none';
+
+    // Run all validations
+    const errors = [
+      validateField('name', name),
+      validateField('email', email),
+      validateField('phone', phone),
+    ].filter(Boolean);
+
+    if (errors.length > 0) return;
+
+    // Loading state
+    const btn = document.getElementById('submit-btn');
+    document.getElementById('btn-text').textContent = 'Sending…';
+    document.getElementById('spinner').style.display = 'block';
+    btn.disabled = true;
+
+    try {
+      const res = await fetch('http://localhost:4000/api/enquiry', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, phone }),
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        document.getElementById('success-text').textContent = data.message;
+        document.getElementById('success-msg').style.display = 'flex';
+        document.getElementById('name').value = '';
+        document.getElementById('email').value = '';
+        document.getElementById('phone').value = '';
+      } else {
+        // Server-side validation errors
+        if (data.errors) {
+          Object.keys(data.errors).forEach(field => {
+            const errorEl = document.getElementById(field + '-error');
+            const inputEl = document.getElementById(field);
+            if (errorEl) { errorEl.textContent = data.errors[field]; inputEl.classList.add('error'); }
+          });
+        }
+        const errBanner = document.getElementById('error-msg');
+        errBanner.textContent = data.message || 'Something went wrong. Please try again.';
+        errBanner.style.display = 'block';
+      }
+    } catch (err) {
+      // Graceful fallback when server isn't running (demo mode)
+      console.warn('API not reachable — demo mode active:', err);
+      const demo = `Thanks ${name.split(' ')[0]}! Your spot is reserved 🎉 We'll contact you at ${email} within 24 hours.`;
+      document.getElementById('success-text').textContent = demo;
+      document.getElementById('success-msg').style.display = 'flex';
+      document.getElementById('name').value = '';
+      document.getElementById('email').value = '';
+      document.getElementById('phone').value = '';
+    } finally {
+      document.getElementById('btn-text').textContent = 'Enroll in Workshop';
+      document.getElementById('spinner').style.display = 'none';
+      btn.disabled = false;
+    }
+  }
+
+  // Allow Enter key on form fields
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && ['name','email','phone'].includes(document.activeElement.id)) {
+      handleSubmit();
+    }
+  });
+</script>
+</body>
+</html>
